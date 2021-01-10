@@ -1,0 +1,68 @@
+\documentclass[paper=a4]{scrartcl}
+\usepackage[ngerman]{babel}
+
+\input{common}
+
+% set KOMA-Script text area
+\areaset{210mm}{297mm}
+
+% set PDF title
+\hypersetup{pdftitle={\theda{Die Karten}}}
+
+% read cards from file
+\newcounter{cardImageNumber}
+\newcounter{cardImageRow}
+\newlength{\cardImageLeft}
+\newlength{\cardImageBottom}
+\newlength{\cardImageRight}
+\newlength{\cardImageTop}
+
+\IfFileExists{./cards.pdf}{
+  \newcommand*{\cardImagePath}{cards.pdf}
+}{
+  \newcommand*{\cardImagePath}{cards.template.pdf}
+}
+
+\newcommand*{\cardImage}{%
+  \setcounter{cardImageRow}{\thecardImageNumber/6}%
+  \setlength{\cardImageLeft}{120mm*(\thecardImageNumber-6*\thecardImageRow)}%
+  \setlength{\cardImageBottom}{120mm*(5-\thecardImageRow)}%
+  \setlength{\cardImageRight}{\cardImageLeft+120mm}%
+  \setlength{\cardImageTop}{\cardImageBottom+120mm}%
+  \includegraphics[
+    viewport={{\cardImageLeft} {\cardImageBottom} {\cardImageRight} {\cardImageTop}},
+    clip,
+  ]{\cardImagePath}%
+  \addtocounter{cardImageNumber}{1}%
+}
+
+% place next three cards on one page
+\newcommand*{\cardPage}{%
+  \vspace*{\fill}%
+  %
+  \begin{tikzpicture}
+    \node at (0,17) {\cardImage};
+    \node at (8,8.5) {\cardImage};
+    \node at (0,0) {\cardImage};
+  \end{tikzpicture}%
+  %
+  \vspace*{\fill}%
+  \pagebreak%
+  \par%
+}
+
+\begin{document}
+
+\cardPage
+\cardPage
+\cardPage
+\cardPage
+\cardPage
+\cardPage
+\cardPage
+\cardPage
+\cardPage
+\cardPage
+\cardPage
+
+\end{document}

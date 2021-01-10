@@ -1,0 +1,38 @@
+\documentclass[paper=a4]{scrartcl}
+\usepackage[ngerman]{babel}
+
+\input{common}
+
+% set KOMA-Script text area
+\areaset{210mm}{297mm}
+
+% set PDF title
+\hypersetup{pdftitle={\theda{Die Dose}}}
+
+\begin{document}
+
+\vspace*{\fill}
+
+\begin{center}
+  \begin{tikzpicture}
+    \node[circle,draw,text width=104mm,inner sep=0] at (0,0) {};
+    \node[circle,draw,text width=7mm,inner sep=0] at (0,0) {};
+    \node at (0,0) {%
+      \fontsize{320pt}{384pt}\selectfont%
+      \contour{black}{\textcolor{white}{$\vartheta$}}%
+    };
+    \node[align=center] at (3.5,-1) {\Huge\textsc{Das}\\[0.5em]\Huge\textsc{Spiel}};
+    \path[
+      postaction={decorate},
+      decoration={
+        text along path,
+        text={6+ J. • 2–5 Sp. • 10mins • von Julian Valentin • Bilder/Texte unter CC BY-SA 4.0},
+        text align=center,
+      },
+    ] (0,5) arc[start angle=90,end angle=360,radius=50mm];
+  \end{tikzpicture}
+\end{center}
+
+\vspace*{\fill}
+
+\end{document}

@@ -1,0 +1,339 @@
+\documentclass[paper=81mm:81mm,fontsize=10.7pt]{scrartcl}
+\usepackage[ngerman]{babel}
+
+\input{common}
+
+% set KOMA-Script text area
+\areaset{77mm}{77mm}
+
+% set PDF title
+\hypersetup{pdftitle={\theda{Der Hintergrund}}}
+
+\begin{document}
+
+\vspace*{\fill}
+
+\noindent\hspace*{9mm}%
+\begin{tikzpicture}
+  \node at (0,0) {%
+    \fontsize{200pt}{240pt}\selectfont%
+    \contour{black}{\textcolor{white}{$\vartheta$}}%
+  };
+  \node[align=center,anchor=north,inner sep=0mm] at (3,0.5) {%
+    \LARGE\textsc{Das}\\[0.5em]%
+    \LARGE\textsc{Spiel}%
+  };
+  \node[align=center,anchor=north,inner sep=0mm] at (3,-1.3) {%
+    \LARGE\textsc{Der}\\[0.5em]%
+    \LARGE\textsc{Hinter-}\\[0.5em]%
+    \LARGE\textsc{\vphantom{H}grund}%
+  };
+  \draw (2.6,-0.95) -- (3.4,-0.95);
+\end{tikzpicture}
+
+\vspace*{\fill}
+
+{%
+  \noindent\small%
+  Bilder/Texte: Copyright \textcopyright{} 2021 Julian Valentin,\\
+  lizenziert unter \doclicenseIcon{} CC BY-SA 4.0%
+}
+
+\pagebreak
+
+\section*{Einleitung}
+
+\theda{} ist eine kleinere Version von "`Dobble"' und "`Spot It!"' und hat den gleichen
+mathematischen Hintergrund.
+All diese Spiele bestehen aus Karten mit verschiedenen Symbolen darauf,
+die folgende Voraussetzungen erfüllen:
+
+\begin{enumerate}[label=G\arabic*.]
+  \item
+  Jede Karte hat mit jeder anderen Karte genau ein Symbol gemein.
+
+  \item
+  Auf jeder Karte befinden sich gleich viele Symbole.
+
+  \item
+  Auf jeder Karte befindet sich jedes Symbol höchstens ein Mal.
+
+  \item
+  Kein Symbol befindet sich auf jeder Karte.
+\end{enumerate}
+
+Die Originalversionen haben 55 Karten mit insgesamt 57 Symbolen,
+wobei sich auf jeder Karte acht Symbole befinden.
+Auf den ersten Blick erscheint es erstaunlich,
+dass alle Voraussetzungen von so vielen Karten und Symbolen erfüllt werden können.
+Wie kann man ein solch großes Kartendeck konstruieren?
+
+Dazu gibt es verschiedene Ansätze.
+Dieser Artikel stellt einen (bereits bekannten) Ansatz vor, mit dem für beliebige Primzahlen $n$
+ein Kartendeck mit $n^2 + n + 1$ Karten und Symbolen und $n + 1$ Symbolen pro Karte konstruiert
+werden kann.
+Für \theda{} wurde $n = 5$ gewählt.
+Die Originalversionen basieren auf demselben Ansatz, wenn man $n = 7$ wählt und
+zwei der möglichen $n^2 + n + 1 = 57$ Karten weglässt.
+
+\pagebreak
+
+Die Idee für diesen Artikel stammt von
+\href{%
+  https://www.petercollingridge.co.uk/blog/mathematics-toys-and-games/dobble/%
+}{%
+  \texttt{%
+    https:\\%
+    //www.petercollingridge.co.uk/blog/\\%
+    mathematics-toys-and-games/dobble/%
+  }%
+}.
+
+\section*{Konstruktion eines Spiels}
+
+Zunächst definieren wir die Menge $S$ der Symbole als $S \ceq S^{(<\infty)} \dcup S^{(\infty)}$ mit
+den \term{endlichen Symbolen} $S^{(<\infty)} \ceq \{0, \dotsc, n - 1\}^2$ und
+den \term{Fernsymbolen} $S^{(\infty)} \ceq \{0, \dotsc, n\}$.
+
+Anschließend definieren wir die Menge $C$ der Karten wie folgt:
+\begin{align*}
+  C &\ceq \{c^\mathrm{(d)}_{a,b} \mid a, b = 0, \dotsc, n - 1\}\\
+  &{} \qquad\dcup \{c^\mathrm{(r)}_i \mid i = 0, \dotsc, n - 1\} \dcup \{c^{(\infty)}\},
+\end{align*}
+wobei für $a, b, i = 0, \dotsc, n - 1$
+\begin{align*}
+  c^\mathrm{(d)}_{a,b}
+  &\ceq
+  \{
+    (i, (a + bi) \bmod n) \mid i \!=\! 0, \scalebox{0.74}[1]{$\dotsc$}, n \!-\! 1
+  \}
+  \!\dcup\! \{b\},\\
+  c^\mathrm{(r)}_i &\ceq \{(i, j) \mid j = 0, \dotsc, n - 1\} \dcup \{n\},\\
+  c^{(\infty)} &\ceq S^{(\infty)} = \{0, \dotsc, n\}
+\end{align*}
+jeweils die \term{Diagonalkarten,} die \term{Zeilenkarten} und die \term{Fernkarte} definieren.
+
+\afterpage{%
+  \vspace*{\fill}%
+  %
+  \begin{center}%
+    \small%
+    \begin{tikzpicture}[scale=1.2]
+      \clip (-1.4,-2.5) rectangle (4.6,3);
+
+      \node[circle,draw,inner sep=0mm] (point00) at (0,2) {$(0, 0)$};
+      \node[circle,draw,inner sep=0mm] (point01) at (1,2) {$(0, 1)$};
+      \node[circle,draw,inner sep=0mm] (point02) at (2,2) {$(0, 2)$};
+      \node[circle,draw,inner sep=0mm] (point10) at (0,1) {$(1, 0)$};
+      \node[circle,draw,inner sep=0mm] (point11) at (1,1) {$(1, 1)$};
+      \node[circle,draw,inner sep=0mm] (point12) at (2,1) {$(1, 2)$};
+      \node[circle,draw,inner sep=0mm] (point20) at (0,0) {$(2, 0)$};
+      \node[circle,draw,inner sep=0mm] (point21) at (1,0) {$(2, 1)$};
+      \node[circle,draw,inner sep=0mm] (point22) at (2,0) {$(2, 2)$};
+
+      \node[circle,draw] (point0) at (-1,-2) {$1$};
+      \node[circle,draw] (point1) at (1,-2) {$0$};
+      \node[circle,draw] (point2) at (3,-2) {$2$};
+      \node[circle,draw] (point3) at (4,1) {$3$};
+
+      \draw[dash pattern=on 3pt off 2pt on 1pt off 2pt]
+          (point00) -- (point11) -- (point22) to[out=-45,in=30] (point0);
+      \draw[dash pattern=on 3pt off 2pt on 1pt off 2pt]
+          (point01) -- (point12) to[out=-45,in=-45,looseness=2] (point20)
+          to[out=135,in=135] (point0);
+      \draw[dash pattern=on 3pt off 2pt on 1pt off 2pt]
+          (point02) to[out=135,in=135,looseness=2] (point10) -- (point21)
+          to[out=-45,in=45,looseness=1.5] (point0);
+
+      \draw[dashed] (point00) -- (point10) -- (point20) to[out=-90,in=135] (point1);
+      \draw[dashed] (point01) -- (point11) -- (point21) -- (point1);
+      \draw[dashed] (point02) -- (point12) -- (point22) to[out=-90,in=45] (point1);
+
+      \draw[dash pattern=on 3pt off 2pt on 1pt off 2pt on 1pt off 2pt]
+          (point00) to[out=45,in=45,looseness=2] (point12) -- (point21)
+          to[out=-135,in=135,looseness=1.5] (point2);
+      \draw[dash pattern=on 3pt off 2pt on 1pt off 2pt on 1pt off 2pt]
+          (point01) -- (point10) to[out=-135,in=-135,looseness=2] (point22)
+          to[out=45,in=45] (point2);
+      \draw[dash pattern=on 3pt off 2pt on 1pt off 2pt on 1pt off 2pt]
+          (point02) -- (point11) -- (point20) to[out=-135,in=150] (point2);
+
+      \draw (point00) -- (point01) -- (point02) to[out=0,in=135] (point3);
+      \draw (point10) -- (point11) -- (point12) -- (point3);
+      \draw (point20) -- (point21) -- (point22) to[out=0,in=-135] (point3);
+
+      \draw[very thick] (point0) -- (point1) -- (point2) to[out=0,in=-45] (point3);
+    \end{tikzpicture}%
+  \end{center}%
+  %
+  \vspace*{\fill}%
+  %
+  \pagebreak%
+}
+
+Man erhält so ein Spiel mit $|S| = n^2 + n + 1 = |C|$ Symbolen und Karten.
+Man kann sich leicht davon überzeugen, dass keine Karte und
+kein Symbol auf einer Karte mehrfach vorkommen.
+Bei der Herstellung der tatsächlichen Karten kann man natürlich alle Symbole umbenennen
+und durch grafische Symbole ersetzen, solange diese paarweise verschieden sind.
+
+Die Namen "`endliche Symbole"', "`Fernsymbole"' und "`Fernkarte"'
+sind übrigens an den Zusammenhang zu endlichen projektiven Ebenen angelehnt,
+der am Ende erläutert wird.
+
+\section*{Beweis der Zulässigkeit}
+
+Im Folgenden vollziehen wir nach, dass das oben konstruierte Spiel $(S, C)$ zulässig ist,
+dass also die Voraussetzungen G1 bis G4 für $S$ und $C$ gelten.
+
+Die Voraussetzungen G2 bis G4 lassen sich leicht prüfen:
+G2 gilt, da $|c^\mathrm{(d)}_{a,b}| = |\smash{c^\mathrm{(r)}_i}| = |c^{(\infty)}| = n + 1$
+für alle $a, b, i = 0, \dotsc, n - 1$.
+Außerdem gilt G3, da die Karten jeweils Mengen sind, die kein Element mehrfach enthalten können.
+Schließlich gilt G4, da zum Beispiel das Fernsymbol $n$ nur auf den Zeilenkarten und
+der Fernkarte vorhanden ist, nicht aber auf den Diagonalkarten.
+
+Um G1 zu zeigen, betrachtet man die verschiedenen Arten der Karten.
+Klar ist, dass die Fernkarte mit allen anderen Karten genau ein Symbol gemein hat,
+da jede dieser Karten ein Fernsymbol enthält (und die Fernkarte enthält alle Fernsymbole).
+Ebenso einfach sieht man, dass jede Zeilenkarte mit allen anderen Zeilenkarten und
+allen Diagonalkarten genau ein Symbol gemein hat.
+Zwei verschiedene Zeilenkarten haben nämlich genau das Symbol $n$ gemein, und\vspace{-0.1em}
+die Zeilenkarte $c^\mathrm{(r)}_i$ hat mit der Diagonalkarte $c^\mathrm{(d)}_{a,b}$
+genau das Symbol $(i, (a + bi) \bmod n)$ gemein.
+
+Die eigentliche Schwierigkeit ist also der Beweis,
+dass zwei verschiedene Diagonalkarten jeweils genau ein Symbol gemein haben.
+Dazu muss man etwas tiefer in die algebraische Trickkiste greifen.
+Zunächst bemerken wir, dass es zwei Fälle gibt,
+wenn man zwei Diagonalkarten $c^\mathrm{(d)}_{a',b'}$ und $c^\mathrm{(d)}_{a'',b''}$ vor sich hat:
+\vspace{-0.1em}$b' = b''$ oder $b' \not= b''$.
+
+Im ersten Fall $b' = b''$ gilt\vspace{-0.1em}
+$b' \in c^\mathrm{(d)}_{a',b'} \cap c^\mathrm{(d)}_{a'',b''}$.
+Es verbleibt zu zeigen,
+dass kein Paar aus $S^{(<\infty)}$ in beiden Karten enthalten ist.
+Wenn wir das Gegenteil annehmen, dann gibt es ein $i$ mit
+$a' + b'i \equiv_n a'' + b''i$, wobei "`$\equiv_n$"' die Gleichheit modulo $n$ anzeigt.
+Subtraktion von $b'i = b''i$ auf beiden Seiten führt zu $a' \equiv_n a''$,
+somit müssen die beiden Karten gleich sein.
+Im Umkehrschluss kann bei zwei verschiedenen Diagonalkarten mit $b' = b''$ nur $b'$
+in beiden enthalten sein.
+
+Im zweiten Fall $b' \not= b''$ ist kein Fernsymbol in beiden Karten gleichzeitig enthalten.
+Daher ist zu zeigen,
+dass genau ein Paar aus $S^{(<\infty)}$ in beiden Karten enthalten ist.
+Dies ist äquivalent dazu, dass es genau ein $i \in \{0, \dotsc, n - 1\}$ gibt mit
+\begin{alignat*}{2}
+  && a' + b'i &\equiv_n a'' + b''i.\\
+  \intertext{%
+    Nun benutzen wir, dass $\field{n}$ für primes $n$ ein Körper ist.
+    Da $b'' - b' \not\equiv_n 0$ in einem Körper ein multiplikativ Inverses hat
+    (das lässt sich mit dem Lemma von Bézout zeigen), erhalten wir%
+  }
+  \iff\quad&& (b'' - b') i &\equiv_n a' - a''\\
+  \iff\quad&& i &\equiv_n (b'' - b')^{-1} (a' - a'').
+\end{alignat*}
+Wenn man also $i = ((b'' - b')^{-1} (a' - a'')) \bmod n$ wählt,
+dann ist $(i, (a' + b'i) \bmod n) \in c^\mathrm{(d)}_{a',b'} \cap c^\mathrm{(d)}_{a'',b''}$.
+Da $i$ eindeutig bestimmt ist, gibt es kein anderes Symbol in der Schnittmenge.
+
+Wir haben damit für alle Fälle gezeigt, dass G1 gilt;
+somit ist $(S, C)$ ein zulässiges Spiel.
+
+\section*{Ausblick: Zusammenhang zu projektiven Ebenen und lateinischen Quadraten}
+
+Abschließend wollen wir noch einige enge Zusammenhänge zu projektiven Ebenen und
+lateinischen Quadraten betrachten, auf denen obige Konstruktion beruht.
+
+\subsection*{Endliche projektive Ebenen}
+
+Eine \term{endliche projektive Ebene (EPE)} der Ordnung $n \in \nat \ceq \{1, 2, 3, \dotsc\}$
+ist ein Paar $(P, L)$
+einer endlichen Menge $P$ \term{(Punkte)} und
+einer Teilmenge $L \subset \powerset{P}$ der Potenzmenge von $P$ \term{(Geraden),}
+sodass gilt:
+\begin{enumerate}[label=P\arabic*.]
+  \item
+  Es gibt $n^2 + n + 1$ Punkte und Geraden:
+  Es gilt $|P| = n^2 + n + 1 = |L|$.
+
+  \item
+  Durch zwei verschiedene Punkte verläuft genau eine Gerade:
+  Für alle $p', p'' \in P$ mit $p' \not= p''$ ist $|\{\ell \in L \mid p', p'' \in \ell\}| = 1$.
+
+  \item
+  Zwei verschiedene Geraden schneiden sich in genau einem Punkt:
+  Für alle $\ell', \ell'' \in L$ mit $\ell' \not= \ell''$ gilt $|\ell' \cap \ell''| = 1$.
+
+  \item
+  Jeder Punkt liegt auf $n + 1$ Geraden:
+  Für alle $p \in P$ ist $|\{\ell \in L \mid p \in \ell\}| = n + 1$.
+
+  \item
+  Jede Gerade verläuft durch $n + 1$ Punkte:
+  Für alle $\ell \in L$ ist $|\ell| = n + 1$.
+\end{enumerate}
+
+Im Gegensatz zur herkömmlichen affinen Geometrie schneiden sich in der projektiven Geometrie
+auch parallele Geraden; der Schnittpunkt wird als ein \term{Fernpunkt} bezeichnet.
+Geraden, die nur \term{Fernpunkte} enthalten, heißen \term{Ferngeraden.}
+
+Aus jeder EPE $(P, L)$ lässt sich ein zulässiges Spiel $(S, C)$
+konstruieren, indem man $S \ceq P$ und $C \ceq L$ wählt.
+Umgekehrt lässt sich obige Konstruktion des Spiels verwenden, um eine endliche projektive Ebene
+der Ordnung $n$ zu konstruieren.
+Die Spiele-Konstruktion ist erweiterbar für Primzahlpotenzen $n$.
+In diesem Fall wird die Formulierung komplexer, da dann $\field{n}$ kein Körper ist
+(es gibt aber andere Körper).
+
+Die Existenz von EPEs der Ordnung $n$ ist nur für folgende Fälle bekannt:
+
+\begin{itemize}
+  \item
+  Eine EPE existiert, falls $n$ eine Primzahlpotenz ist (z.\,B. $n = 5$ oder $n = 9 = 3^2$).
+
+  \item
+  Eine EPE existiert nicht, falls [$n \equiv_4 1$ oder $n \equiv_4 2$] und
+  $n$ nicht die Summe zweier Quadratzahlen ist (z.\,B. $n = 6$).
+
+  \item
+  Eine EPE existiert nicht, falls $n = 10$ (Beweis durch Brute-Force).
+\end{itemize}
+Im Allgemeinen ist die Existenz von EPEs ein großes ungelöstes Problem der Kombinatorik.
+
+\subsection*{Lateinische Quadrate}
+
+Ein \emph{lateinisches Quadrat} der Ordnung $n \in \nat$ ist eine $(n \times n)$-Matrix
+mit Einträgen aus einer Menge mit $n$ Elementen,
+sodass jedes Element der Menge in jeder Zeile und in jeder Spalte genau ein Mal vorkommt.
+
+Zwei lateinische Quadrate der Ordnung $n$ sind \emph{orthogonal,}
+falls die $(n \times n)$-Matrix, die man erhält,
+wenn man die Einträge der beiden Quadrate zu je einem Paar kombiniert,
+kein Paar mehrfach enthält.
+
+Eine \emph{vollständige Menge von paarweise orthogonalen lateinischen Quadraten (VMPOLQ)}
+der Ordnung $n$ ist eine Menge von $n - 1$ lateinischen Quadraten der Ordnung $n$,
+die paarweise orthogonal sind.
+
+Man kann beweisen, dass eine VMPOLQ äquivalent zu einer sog. \term{endlichen affinen Ebene} ist,
+die wiederum eindeutig zu einer EPE erweitert werden kann.
+Die Aussage, dass EPEs der Ordnung $n$ existieren, falls $n$ eine Primzahlpotenz ist,
+basiert auf genau dieser Äquivalenz:
+Es gibt einen Algorithmus, der eine VMPOLQ der Ordnung $n$ aus einem endlichen Körper mit
+$n$ Elementen konstruiert, und ein endlicher Körper mit $n$ Elementen existiert genau dann, wenn
+$n$ eine Primzahlpotenz ist.
+
+Falls $n$ sogar eine Primzahl ist, lässt sich unsere Spielekonstruktion
+(die im Prinzip ein Spezialfall des erwähnten Algorithmus ist) anwenden,
+um eine VMPOLQ der Ordnung $n$ zu konstruieren.
+Um das $b$-te lateinische Quadrat zu konstruieren ($b = 1, \dotsc, n - 1$),
+erstellt man eine $(n \times n)$-Matrix.
+Für alle $a = 0, \dotsc, n - 1$ schreibt man nun $a$ in die Einträge der Matrix,
+deren nullbasierte Indizes sich als Paar in $c^\mathrm{(d)}_{a,b}$ befinden.
+Man kann zeigen, dass alle Einträge der Matrix genau ein Mal beschrieben werden.
+Aufwendiger ist der Beweis, dass die Matrizen tatsächlich paarweise orthogonale
+lateinische Quadrate sind.
+
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[paper=a4]{scrartcl}
+\usepackage[ngerman]{babel}
+
+\input{common}
+
+% set KOMA-Script text area
+\areaset{210mm}{297mm}
+
+% set PDF title
+\hypersetup{pdftitle={\theda{Die Anleitung}}}
+
+\begin{document}
+
+\nupRightPage{instructions}{1}{3}{5}{7}{9}{11}
+\nupLeftPage{instructions}{4}{2}{8}{6}{12}{10}
+\nupRightPage{instructions}{13}{15}{}{}{}{}
+\nupLeftPage{instructions}{16}{14}{}{}{}{}
+
+\end{document}

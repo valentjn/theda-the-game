@@ -1,0 +1,350 @@
+\documentclass[paper=81mm:81mm]{scrartcl}
+\usepackage[ngerman]{babel}
+
+\input{common}
+
+% set KOMA-Script text area
+\areaset{77mm}{77mm}
+
+% set PDF title
+\hypersetup{pdftitle={\theda{Die Anleitung}}}
+
+% read symbol names from file
+\newread\symbolNamesread
+\IfFileExists{./symbolNames.txt}{
+  \openin\symbolNamesread=symbolNames.txt
+}{
+  \openin\symbolNamesread=symbolNames.template.txt
+}
+
+\newcommand*{\symbolName}{\read\symbolNamesread to \symbolNameTemp\symbolNameTemp}
+
+% read symbols from file
+\newcounter{symbolImageNumber}
+\newcounter{symbolImageRow}
+\newlength{\symbolImageLeft}
+\newlength{\symbolImageBottom}
+\newlength{\symbolImageRight}
+\newlength{\symbolImageTop}
+
+\IfFileExists{./symbols.pdf}{
+  \newcommand*{\symbolImagePath}{symbols.pdf}
+}{
+  \newcommand*{\symbolImagePath}{symbols.template.pdf}
+}
+
+\newcommand*{\symbolImage}[2]{%
+  \setcounter{symbolImageRow}{\thesymbolImageNumber/6}%
+  \setlength{\symbolImageLeft}{100mm*(\thesymbolImageNumber-6*\thesymbolImageRow)+50mm-100mm*\real{#1}/2}%
+  \setlength{\symbolImageBottom}{100mm*(5-\thesymbolImageRow)+50mm-100mm*\real{#2}/2}%
+  \setlength{\symbolImageRight}{\symbolImageLeft+100mm*\real{#1}}%
+  \setlength{\symbolImageTop}{\symbolImageBottom+100mm*\real{#2}}%
+  \includegraphics[
+    viewport={{\symbolImageLeft} {\symbolImageBottom} {\symbolImageRight} {\symbolImageTop}},
+    clip,
+    scale=0.3,
+  ]{\symbolImagePath}%
+  \addtocounter{symbolImageNumber}{1}%
+}
+
+\begin{document}
+
+\vspace*{\fill}
+
+\noindent\hspace*{9mm}%
+\begin{tikzpicture}
+  \node at (0,0) {%
+    \fontsize{200pt}{240pt}\selectfont%
+    \contour{black}{\textcolor{white}{$\vartheta$}}%
+  };
+  \node[align=center,anchor=north,inner sep=0mm] at (3,0.5) {%
+    \LARGE\textsc{Das}\\[0.5em]%
+    \LARGE\textsc{Spiel}%
+  };
+  \node[align=center,anchor=north,inner sep=0mm] at (3,-1.3) {%
+    \LARGE\textsc{Die}\\[0.5em]%
+    \LARGE\textsc{Anleitung}%
+  };
+  \draw (2.6,-0.95) -- (3.4,-0.95);
+\end{tikzpicture}
+
+\vspace*{\fill}
+
+{%
+  \noindent\small%
+  Bilder/Texte: Copyright \textcopyright{} 2021 Julian Valentin,\\
+  lizenziert unter \doclicenseIcon{} CC BY-SA 4.0%
+}
+
+\pagebreak
+
+\section*{Ziel des Spiels}
+
+\theda{} (ausgesprochen "`Tedda"')
+ist eine kleinere Version von "`Dobble"' und "`Spot It!"' mit eigenen Symbolen.
+Ziel des Spiels ist es, als Erste/r alle Karten abzulegen,
+indem gleiche Symbole erkannt werden.
+
+\section*{Inhalt}
+
+\begin{itemize}
+  \item
+  Anleitung
+
+  \item
+  Hintergrund
+
+  \item
+  31 Karten
+\end{itemize}
+
+\section*{Spielablauf}
+
+\theda{} kann mit insgesamt zwei bis fünf Spieler*innen gespielt werden.
+Jede/r Spieler*in hat Karten auf der Hand.
+Zusätzlich gibt es einen Stapel in der Tischmitte.
+
+\begin{enumerate}
+  \item
+  Eine beliebige Person fungiert als Kartengeber*in und mischt die 31 Karten.
+
+  \item
+  Die oberste Karte des gemischten Stapels wird offen in die Tischmitte gelegt.
+
+  \item
+  Die übrigen 30 Karten werden verdeckt so ausgeteilt,
+  dass jede/r Spieler*in gleich viele Karten erhält.
+  Vor Spielbeginn dürfen die Karten nicht angeschaut werden.
+  Überschüssige Karten werden nicht benötigt und werden daher beiseite gelegt.
+
+  \item
+  Wenn alle bereit sind, nehmen alle Spieler*innen ihre Stapel so in die Hand,
+  dass immer jeweils nur die oberste Karte für die/den jeweilige/n Spieler*in
+  offen sichtbar ist.
+
+  \item
+  Alle Spieler*innen sind immer gleichzeitig an der Reihe.
+  Auf jeder Karte befinden sich sechs Symbole.
+  Für jede/n Spieler*in gibt es immer genau ein Symbol,
+  das sich sowohl auf der obersten Karte auf der eigenen Hand
+  als auch auf der obersten Karte des Stapels in der Tischmitte befindet.
+  Wenn der/die Spieler*in den Namen "`seines/ihres"' Symbols laut ansagt,
+  darf er/sie gleichzeitig die Karte offen auf den Stapel in der Tischmitte legen.
+
+  \item
+  Wenn eine Karte auf den Stapel in der Tischmitte gelegt wird,
+  so ändert sich das jeweilige gesuchte Symbol für alle Spieler*innen,
+  da immer die momentan oberste Karte des Stapels in der Tischmitte herangezogen wird.
+
+  \item
+  Falls zwei Spieler*innen gleichzeitig Karten ablegen, so hat der/die Spieler*in Vorrang,
+  dessen/deren Karte zuerst auf dem Stapel in der Tischmitte war.
+
+  \pagebreak
+
+  \item
+  Wer eine Karte ablegt, indem er/sie ein falsches Symbol ansagt,
+  und nicht von selbst die Karte wieder aufnimmt,
+  bevor ein/e andere/r Spieler*in eine andere Karte darauf ablegt oder auf den Fehler hinweist,
+  hat automatisch verloren und scheidet aus dem Spiel aus.
+  Dies gilt auch, wenn es sich um die letzte Karte auf der Hand handelt.
+
+  \item
+  Das Spiel endet, sobald alle Spieler*innen ihre Karten abgelegt haben.
+  Wenn ein/e Spieler*in keine Karten mehr hat, so spielen die anderen Spieler*innen weiter.
+
+  \item
+  Gewonnen hat, wer als Erste/r ihre/seine Karten abgelegt hat.
+\end{enumerate}
+
+\section*{Die Symbole}
+
+Bei der Ansage der Symbole müssen nicht genau die hier angegebenen Namen verwendet werden.
+Jeder Name ist erlaubt, bei dem es bei gesundem Menschenverstand klar ist,
+um welches Symbol es sich handelt.
+Dazu muss
+\begin{itemize}
+  \item
+  der Name sich um eine weit verbreitete Bezeichnung für das Symbol handeln
+  (also Substantive -- nur "`rot"' für das Herz ist nicht zulässig) und
+
+  \item
+  der Name unter allen Symbolen eindeutig sein
+  ("`Uni"' statt "`Uni Stuttgart"' ist zum Beispiel erlaubt,
+  da es sonst keine Universität unter den Symbolen gibt).
+\end{itemize}
+
+\pagebreak
+
+{
+  \setlength{\parindent}{0mm}
+  \tikzset{inner sep=0mm}
+
+  \vspace*{\fill}
+
+  \begin{center}
+    \vspace*{\fill}
+
+    \begin{tikzpicture}
+      \node at (0,6) {\symbolImage{0.86}{0.32}};
+      \node at (3.5,6) {\symbolName};
+      \node at (2.5,4) {\symbolImage{0.66}{0.84}};
+      \node at (4,4) {\symbolName};
+      \node at (0,2.5) {\symbolImage{0.91}{0.35}};
+      \node at (0,1.5) {\symbolName};
+      \node at (4,1) {\symbolImage{0.84}{0.87}};
+      \node at (2,1) {\symbolName};
+    \end{tikzpicture}
+
+    \vspace*{\fill}
+  \end{center}
+
+  \pagebreak
+
+  \begin{center}
+    \vspace*{\fill}
+
+    \begin{tikzpicture}
+      \node at (0,5) {\symbolImage{0.86}{0.42}};
+      \node at (0,6) {\symbolName};
+      \node at (4,4) {\symbolImage{0.66}{0.71}};
+      \node at (2,3.5) {\symbolName};
+      \node at (0,2) {\symbolImage{0.96}{0.50}};
+      \node at (0,0.7) {\symbolName};
+      \node at (4,0) {\symbolImage{0.58}{0.54}};
+      \node at (2,-0.3) {\symbolName};
+    \end{tikzpicture}
+
+    \vspace*{\fill}
+  \end{center}
+
+  \pagebreak
+
+  \begin{center}
+    \vspace*{\fill}
+
+    \begin{tikzpicture}
+      \node at (1,6) {\symbolImage{0.53}{0.86}};
+      \node at (-0.8,6) {\symbolName};
+      \node at (4,5.5) {\symbolImage{0.58}{0.52}};
+      \node at (4,6.8) {\symbolName};
+      \node at (0,2) {\symbolImage{0.61}{0.60}};
+      \node at (0,3.5) {\symbolName};
+      \node at (3,2) {\symbolImage{0.35}{0.77}};
+      \node at (4.6,2) {\symbolName};
+    \end{tikzpicture}
+
+    \vspace*{\fill}
+  \end{center}
+
+  \pagebreak
+
+  \begin{center}
+    \vspace*{\fill}
+
+    \begin{tikzpicture}
+      \node at (4,6) {\symbolImage{0.79}{0.37}};
+      \node at (2,6) {\symbolName};
+      \node at (0,4) {\symbolImage{0.73}{0.68}};
+      \node at (2.3,4.5) {\symbolName};
+      \node at (4,2.5) {\symbolImage{0.74}{0.83}};
+      \node at (4,0.9) {\symbolName};
+      \node at (0,1) {\symbolImage{0.73}{0.65}};
+      \node at (1.3,0.2) {\symbolName};
+    \end{tikzpicture}
+
+    \vspace*{\fill}
+  \end{center}
+
+  \pagebreak
+
+  \begin{center}
+    \vspace*{\fill}
+
+    \begin{tikzpicture}
+      \node at (0,5) {\symbolImage{0.79}{0.41}};
+      \node at (0,6.2) {\symbolName};
+      \node at (3.2,5) {\symbolImage{0.77}{0.77}};
+      \node at (3.2,6.7) {\symbolName};
+      \node at (0,2) {\symbolImage{0.75}{0.73}};
+      \node at (0,0.3) {\symbolName};
+      \node at (3.2,2) {\symbolImage{0.58}{0.69}};
+      \node at (3.2,0.3) {\symbolName};
+    \end{tikzpicture}
+
+    \vspace*{\fill}
+  \end{center}
+
+  \pagebreak
+
+  \begin{center}
+    \vspace*{\fill}
+
+    \begin{tikzpicture}
+      \node at (0,6) {\symbolImage{0.55}{0.71}};
+      \node at (1.8,6.5) {\symbolName};
+      \node at (4,4.5) {\symbolImage{0.93}{0.56}};
+      \node at (1.3,4) {\symbolName};
+      \node at (0,2.5) {\symbolImage{0.88}{0.38}};
+      \node at (2.2,2.5) {\symbolName};
+      \node at (4,1) {\symbolImage{0.84}{0.52}};
+      \node at (1.9,1) {\symbolName};
+    \end{tikzpicture}
+
+    \vspace*{\fill}
+  \end{center}
+
+  \pagebreak
+
+  \begin{center}
+    \vspace*{\fill}
+
+    \begin{tikzpicture}
+      \node at (0.9,5) {\symbolImage{0.80}{0.82}};
+      \node at (0.9,6.7) {\symbolName};
+      \node at (4.3,5.4) {\symbolImage{0.89}{0.57}};
+      \node at (4.3,4) {\symbolName};
+      \node at (0,2) {\symbolImage{0.57}{0.83}};
+      \node at (1.8,2.5) {\symbolName};
+      \node at (4.7,2) {\symbolImage{0.95}{0.70}};
+      \node at (2.8,1.5) {\symbolName};
+    \end{tikzpicture}
+
+    \vspace*{\fill}
+  \end{center}
+
+  \pagebreak
+
+  \begin{center}
+    \vspace*{\fill}
+
+    \begin{tikzpicture}
+      \node at (0,6) {\symbolImage{0.83}{0.84}};
+      \node at (2.9,6) {\symbolName};
+      \node at (3.7,3.75) {\symbolImage{0.81}{0.81}};
+      \node at (1.1,3.75) {\symbolName};
+      \node at (0,1.5) {\symbolImage{0.65}{0.73}};
+      \node at (2,1.5) {\symbolName};
+    \end{tikzpicture}
+
+    \vspace*{\fill}
+  \end{center}
+}
+
+\section*{Spielvarianten}
+
+Alle Spielvarianten von "`Dobble"' und "`Spot It!"' können auch mit \theda{} gespielt werden.
+Für Informationen, welche Varianten es gibt und wie man diese spielt, wird auf die Anleitungen
+von "`Dobble"' und "`Spot It!"' verwiesen.
+
+\section*{Impressum}
+
+\begin{itemize}
+  \item
+  Spielidee: Jacques Cottereau, Denis Blanchot
+
+  \item
+  Bilder, Texte, Herstellung: Julian Valentin
+\end{itemize}
+
+\end{document}
